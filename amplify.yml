@@ -16,6 +16,7 @@ frontend:
         - bun install
     build:
       commands:
+        - npm install -g @quasar/cli
         - quasar build
   artifacts:
     baseDirectory: dist/spa

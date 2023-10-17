@@ -11,10 +11,10 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm install
+        - bun install
     build:
       commands:
-        - npm run build
+        - quasar build
   artifacts:
     baseDirectory: dist/spa
     files:

@@ -91,13 +91,11 @@ amplify add function
 amplify push
 ```
 
-### Submit PR and preview for review
+### Submit PR for review
 
 ```bash
 git commit -am 'Feature'
 git push -u origin feature
-aws amplify create-branch --app-id <app-id> --branch-name feature
-aws amplify start-job --app-id <appid> --branch-name feature --job-type RELEASE
 ```
 
 ### Merge to development branch (https://test.bikerscum.ai)
@@ -108,10 +106,9 @@ git merge feature
 git push
 ```
 
-### Delete feature branch, preview and environment
+### Delete feature branch and environment
 
 ```bash
 git push origin --delete feature
-aws amplify delete-branch --app-id <appid> --branch-name feature
 amplify env remove feature
 ```

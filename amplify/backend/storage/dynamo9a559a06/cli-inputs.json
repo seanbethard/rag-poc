@@ -1,0 +1,10 @@
+{
+  "resourceName": "dynamo9a559a06",
+  "tableName": "dynamo9a559a06",
+  "partitionKey": {
+    "fieldName": "user",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

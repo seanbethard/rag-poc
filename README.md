@@ -100,7 +100,7 @@ aws amplify create-branch --app-id <app-id> --branch-name feature
 aws amplify start-job --app-id <appid> --branch-name feature --job-type RELEASE
 ```
 
-### Merge to development branch
+### Merge to development branch (https://test.bikerscum.ai)
 
 ```bash
 git checkout biker-scum-dev

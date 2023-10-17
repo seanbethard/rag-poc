@@ -16,7 +16,7 @@ $HOME/.pyenv/shims/python
 ```
 
 ```bash
-pyenv install -v 3.8.18
+pyenv install -v 3.8.0
 ```
 
 ### Create virtualenv with project shim
@@ -28,16 +28,16 @@ $HOME/git/biker-scum/.python-version
 
 ```shell
 pyenv version
-3.8.18 (set by $HOME/git/biker-scum/.python-version)
+3.8.0 (set by $HOME/git/biker-scum/.python-version)
 ```
 
 ```shell
 pyenv local
-3.8.18
+3.8.0
 ```
 
 ```bash
-pipenv install -v 3.8.18
+pipenv install -v 3.8.0
 ```
 
 ### Activate virtualenv

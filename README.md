@@ -1,6 +1,6 @@
 # Biker Scum
 
-![Alt Text](https://static.wikia.nocookie.net/wasteland/images/4/4a/WL_ani_115.gif/revision/latest?cb=20090918145430)
+![Alt Text](https://static.wikia.nocookie.net/wasteland/images/4/4a/WL_ani_115.gif)
 
 On-device, pre-quantum knowledge base with backoff retrieval and ASR support.<br>
 Scumbag is a neurosymbolic AI for motorcycle mechanics.<br>

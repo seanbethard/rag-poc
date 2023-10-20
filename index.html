@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title><%= productName %></title>
@@ -41,7 +41,8 @@
   <body>
     <!-- quasar:entry-point -->
     <script>
-      var global = global || window;
+      window.global = window;
+      var exports = {};
     </script>
   </body>
 </html>

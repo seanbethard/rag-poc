@@ -12,6 +12,12 @@ const { configure } = require('quasar/wrappers');
 
 module.exports = configure(function (/* ctx */) {
   return {
+
+  // fix request errors (Amplify auth)
+  extendViteConf(viteConf) {
+    viteConf.resolve.alias['./runtimeConfig'] = './runtimeConfig.browser';
+  },
+
     eslint: {
       // fix: true,
       // include: [],
@@ -27,7 +33,9 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: [],
+    boot: [
+      'amplify'
+    ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -86,7 +94,6 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
     },
 
     // animations: 'all', // --- includes all animations

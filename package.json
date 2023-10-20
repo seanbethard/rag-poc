@@ -13,7 +13,9 @@
     "build": "quasar build"
   },
   "dependencies": {
+    "@aws-amplify/ui-vue": "^3.1.29",
     "@quasar/extras": "^1.16.7",
+    "aws-amplify": "^5.3.11",
     "pinia": "^2.1.7",
     "quasar": "^2.13.0",
     "vue": "^3.3.4",

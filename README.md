@@ -6,7 +6,7 @@ _Biker Scum_ is the AI-powered voice assistant for motorcycle mechanics. _Biker 
 
 ## What is Biker Scum AI?
 
-_Biker Scum_'s knowledge base (`RatBikeDB`) and inference potential. Use your own procedures, technical documents and diagrams to extend _Biker Scum_'s knowledge base for optimal prescriptive guidance. `BikerScumDB` supports on-device ASR, retrieval and neurosymbolic inference on classical computers.
+_Biker Scum_'s knowledge base (`RatBikeDB`) and inference potential. Use your own procedures, technical documents and diagrams to extend _Biker Scum_'s knowledge base for optimal prescriptive guidance. `RatBikeDB` supports on-device ASR, retrieval and neurosymbolic inference on classical computers.
 
 ## Why Biker Scum?
 

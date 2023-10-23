@@ -1,10 +1,24 @@
-# Biker Scum
-
 ![Alt Text](https://static.wikia.nocookie.net/wasteland/images/4/4a/WL_ani_115.gif)
 
-On-device, pre-quantum knowledge base with backoff retrieval and ASR support.<br>
-Scumbag is a neurosymbolic AI for motorcycle mechanics.<br>
-Neurosymbolic AI for Motorcycles (NAM) is an emergent area of research.
+## What is Biker Scum?
+
+_Biker Scum_ is the AI-powered voice assistant for motorcycle mechanics. _Biker Scum_ supports your motorcycle maintenance program with artificial intelligence to accelerate problem diagnosis and repair, improving mean time to repair, first-time fix rates and reducing mean time between failures.
+
+## What is Biker Scum AI?
+
+_Biker Scum_'s knowledge base (`RatBikeDB`) and inference potential. Use your own procedures, technical documents and diagrams to extend _Biker Scum_'s knowledge base for optimal prescriptive guidance. `BikerScumDB` supports on-device ASR, retrieval and neurosymbolic inference on classical computers.
+
+## Why Biker Scum?
+
+* Rising maintenance costs.
+* Loss of talent and knowledge in workforce.
+* Scarcity of tribal knowledge.
+* Prescriptive repair guidance improves maintenance key performance indicators (KPIs).
+* Improves first-time fix (FTF) rates.
+* Improves mean time to repair (MTTR) rate.
+* Reduces mean time between failures (MTBF).
+
+## Make Biker Scum better
 
 ## Setup Python environment
 
@@ -19,7 +33,7 @@ $HOME/.pyenv/shims/python
 pyenv install -v 3.8.0
 ```
 
-### Create virtualenv with project shim
+### Create virtual environment with project shim
 
 ```shell
 pyenv version-file
@@ -40,7 +54,7 @@ pyenv local
 pipenv install -v 3.8.0
 ```
 
-### Activate virtualenv
+### Activate virtual environment
 
 ```bash
 pipenv shell
@@ -52,7 +66,7 @@ pipenv shell
 bun install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Start the application in development mode
 
 ```bash
 quasar dev
@@ -70,13 +84,13 @@ bun lint
 bun format
 ```
 
-### Build the app for production
+### Build the application for production
 
 ```bash
 quasar build
 ```
 
-## Deploy to Amplify
+## Deploy the application to Amplify
 
 ### Create a new feature
 
@@ -91,14 +105,14 @@ amplify add function
 amplify push
 ```
 
-### Submit PR for review
+### Submit a pull request for review
 
 ```bash
 git commit -am 'Feature'
 git push -u origin feature
 ```
 
-### Merge to development branch (https://test.bikerscum.ai)
+### Merge the feature branch into the [development branch](https://test.bikerscum.ai)
 
 ```bash
 git checkout biker-scum-dev
@@ -106,7 +120,7 @@ git merge feature
 git push
 ```
 
-### Delete feature branch and environment
+### Delete the feature branch and feature environment
 
 ```bash
 git push origin --delete feature

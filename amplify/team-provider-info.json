@@ -1,52 +1,14 @@
 {
-  "bikerscum": {
+  "scum": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-bikerscum-bikerscum-230633-authRole",
-      "UnauthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-bikerscum-230633-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-bikerscum-230633-authRole",
+      "AuthRoleName": "amplify-bikerscum-scum-104336-authRole",
+      "UnauthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-scum-104336-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-scum-104336-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-bikerscum-bikerscum-230633-deployment",
-      "UnauthRoleName": "amplify-bikerscum-bikerscum-230633-unauthRole",
-      "StackName": "amplify-bikerscum-bikerscum-230633",
-      "StackId": "arn:aws:cloudformation:us-east-1:261002532500:stack/amplify-bikerscum-bikerscum-230633/90d31b40-6ca2-11ee-8e09-0ae34702427b",
-      "AmplifyAppId": "d4957g7xzdglo"
-    },
-    "categories": {
-      "auth": {
-        "bikerscum3a592d65": {},
-        "userPoolGroups": {}
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "d4957g7xzdglo",
-          "type": "cicd"
-        }
-      },
-      "function": {
-        "bikerscum8999ccc3": {
-          "deploymentBucketName": "amplify-bikerscum-bikerscum-230633-deployment",
-          "s3Key": "amplify-builds/bikerscum8999ccc3-576e4445615657645a64-build.zip"
-        }
-      },
-      "api": {
-        "bikerscum": {},
-        "api3ee445cc": {}
-      },
-      "storage": {
-        "dynamo9a559a06": {}
-      }
-    }
-  },
-  "test": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-bikerscum-test-24219-authRole",
-      "UnauthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-test-24219-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-test-24219-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-bikerscum-test-24219-deployment",
-      "UnauthRoleName": "amplify-bikerscum-test-24219-unauthRole",
-      "StackName": "amplify-bikerscum-test-24219",
-      "StackId": "arn:aws:cloudformation:us-east-1:261002532500:stack/amplify-bikerscum-test-24219/b5434770-6cc0-11ee-89a2-0e233f402623",
+      "DeploymentBucketName": "amplify-bikerscum-scum-104336-deployment",
+      "UnauthRoleName": "amplify-bikerscum-scum-104336-unauthRole",
+      "StackName": "amplify-bikerscum-scum-104336",
+      "StackId": "arn:aws:cloudformation:us-east-1:261002532500:stack/amplify-bikerscum-scum-104336/04140d90-7648-11ee-bb49-1239a2202e4d",
       "AmplifyAppId": "d4957g7xzdglo"
     },
     "categories": {
@@ -56,7 +18,7 @@
       },
       "function": {
         "bikerscum8999ccc3": {
-          "deploymentBucketName": "amplify-bikerscum-test-24219-deployment",
+          "deploymentBucketName": "amplify-bikerscum-scum-104336-deployment",
           "s3Key": "amplify-builds/bikerscum8999ccc3-576e4445615657645a64-build.zip"
         }
       },
@@ -66,25 +28,21 @@
           "type": "cicd"
         }
       },
-      "api": {
-        "api3ee445cc": {},
-        "bikerscum": {}
-      },
       "storage": {
         "dynamo9a559a06": {}
       }
     }
   },
-  "dev": {
+  "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-bikerscum-dev-24827-authRole",
-      "UnauthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-dev-24827-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-dev-24827-authRole",
+      "AuthRoleName": "amplify-bikerscum-staging-105430-authRole",
+      "UnauthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-staging-105430-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-staging-105430-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-bikerscum-dev-24827-deployment",
-      "UnauthRoleName": "amplify-bikerscum-dev-24827-unauthRole",
-      "StackName": "amplify-bikerscum-dev-24827",
-      "StackId": "arn:aws:cloudformation:us-east-1:261002532500:stack/amplify-bikerscum-dev-24827/91387bb0-6cc1-11ee-aee0-120332a8643f",
+      "DeploymentBucketName": "amplify-bikerscum-staging-105430-deployment",
+      "UnauthRoleName": "amplify-bikerscum-staging-105430-unauthRole",
+      "StackName": "amplify-bikerscum-staging-105430",
+      "StackId": "arn:aws:cloudformation:us-east-1:261002532500:stack/amplify-bikerscum-staging-105430/897461a0-7649-11ee-a48a-121e98266691",
       "AmplifyAppId": "d4957g7xzdglo"
     },
     "categories": {
@@ -94,7 +52,41 @@
       },
       "function": {
         "bikerscum8999ccc3": {
-          "deploymentBucketName": "amplify-bikerscum-dev-24827-deployment",
+          "deploymentBucketName": "amplify-bikerscum-staging-105430-deployment",
+          "s3Key": "amplify-builds/bikerscum8999ccc3-576e4445615657645a64-build.zip"
+        }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d4957g7xzdglo",
+          "type": "cicd"
+        }
+      },
+      "storage": {
+        "dynamo9a559a06": {}
+      }
+    }
+  },
+  "rats": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-bikerscum-rats-105458-authRole",
+      "UnauthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-rats-105458-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::261002532500:role/amplify-bikerscum-rats-105458-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-bikerscum-rats-105458-deployment",
+      "UnauthRoleName": "amplify-bikerscum-rats-105458-unauthRole",
+      "StackName": "amplify-bikerscum-rats-105458",
+      "StackId": "arn:aws:cloudformation:us-east-1:261002532500:stack/amplify-bikerscum-rats-105458/9a0eb790-7649-11ee-903f-0ab3f598fdf1",
+      "AmplifyAppId": "d4957g7xzdglo"
+    },
+    "categories": {
+      "auth": {
+        "bikerscum3a592d65": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "bikerscum8999ccc3": {
+          "deploymentBucketName": "amplify-bikerscum-rats-105458-deployment",
           "s3Key": "amplify-builds/bikerscum8999ccc3-576e4445615657645a64-build.zip"
         }
       },

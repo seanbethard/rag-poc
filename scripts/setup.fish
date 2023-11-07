@@ -17,11 +17,11 @@ set -gx EKS_CLUSTER bedrock-cluster
 set -gx ISTIO_VERSION 1.18.3
 
 echo "set -gx IAM_ADMIN $IAM_ADMIN" | tee -a $fish_config
-echo "set -gx TEXT2TEXT_MODEL_ID $TEXT2TEXT_MODEL_ID" | tee -a $fish_config
-echo "set -gx EMBEDDING_MODEL_ID $EMBEDDING_MODEL_ID" | tee -a $fish_config
+echo "set -gx LANGUAGE_MODEL $LANGUAGE_MODEL" | tee -a $fish_config
+echo "set -gx EMBEDDING_MODEL $EMBEDDING_MODEL" | tee -a $fish_config
 echo "set -gx BEDROCK_SERVICE $BEDROCK_SERVICE" | tee -a $fish_config
 echo "set -gx KUBECTL_VERSION $KUBECTL_VERSION" | tee -a $fish_config
-echo "set -gx EKS_CLUSTER_NAME $EKS_CLUSTER_NAME" | tee -a $fish_config
+echo "set -gx EKS_CLUSTER $EKS_CLUSTER" | tee -a $fish_config
 echo "set -gx ISTIO_VERSION $ISTIO_VERSION" | tee -a $fish_config
 
 if test "x$IAM_ADMIN" = x
@@ -59,7 +59,7 @@ if test "x$KUBECTL_VERSION" = x
     exit
 end
 
-if test "x$EKS_CLUSTER_NAME" = x
+if test "x$EKS_CLUSTER" = x
     echo --------------------------------------------
     echo "Please specify a name for the EKS Cluster."
     echo --------------------------------------------
@@ -76,9 +76,14 @@ end
 # Python 3.8, Apple silicon
 echo "Installing Python"
 curl -sSL https://raw.githubusercontent.com/Homebrew/formula-patches/113aa84/python/3.8.3.patch\?full_index\=1 | pyenv install --patch 3.8.6
-sed -e "s@false@true@" pyvenv.cfg
 pipenv install -q --python 3.8.6
+set -gx PROJECT_NAME (echo (string split / --right --max 1  (pwd))[2])
+set -x VENV_NAME (ls -al $HOME/.local/share/virtualenvs/ | grep "$PROJECT_NAME.*")
+set -gx PROJECT_VENV (echo (string split ' ' $VENV_NAME)[12])
+sed -e "s@false@true@" $PROJECT_VENV/pyvenv.cfg | tee $PROJECT_VENV/pyvenv.cfg
+echo "Installing botocore"
 pipenv run python3.8 -m pip install -q -q --user botocore
+echo "Installing boto3"
 pipenv run python3.8 -m pip install -q -q --user boto3
 
 echo "Installing jq, kubectl, eksctl, helm, fish completions"
@@ -162,7 +167,7 @@ echo "Creating ECR repository for Claude"
 set -gx ECR_REPO_CLAUDE $(aws ecr create-repository \
   --repository-name $EKS_CLUSTER_NAME-$RANDOM_STRING-claude \
   --encryption-configuration encryptionType=KMS)
-set -gx REPO_URI_CLAUDE $(echo $ECR_REPO_CLAUDE}| jq -r '.repository.repositoryUri')
+set -gx REPO_URI_CLAUDE $(echo $ECR_REPO_CLAUDE| jq -r '.repository.repositoryUri')
 set -gx REPO_CLAUDE $(echo $ECR_REPO_CLAUDE|jq -r '.repository.repositoryName')
 
 echo "Creating ECR repository for rag-api"

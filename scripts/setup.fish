@@ -8,6 +8,8 @@ echo "set -gx YAML_PATH yaml" | tee -a $fish_config
 [ -d $YAML_PATH ] || mkdir $YAML_PATH
 
 set -gx AWS_DEFAULT_REGION us-east-1
+set -gx ACCOUNT_ID $(aws --region $AWS_DEFAULT_REGION sts get-caller-identity --output text --query Account)
+
 set -gx IAM_ADMIN BedrockMultitenant
 set -gx LANGUAGE_MODEL anthropic.claude-instant-v1
 set -gx EMBEDDING_MODEL amazon.titan-embed-text-v1
@@ -77,10 +79,13 @@ end
 echo "Installing Python"
 curl -sSL https://raw.githubusercontent.com/Homebrew/formula-patches/113aa84/python/3.8.3.patch\?full_index\=1 | pyenv install --patch 3.8.6
 pipenv install -q --python 3.8.6
+
+echo "Enabling --user install"
 set -gx PROJECT_NAME (echo (string split / --right --max 1  (pwd))[2])
 set -x VENV_NAME (ls -al $HOME/.local/share/virtualenvs/ | grep "$PROJECT_NAME.*")
 set -gx PROJECT_VENV (echo (string split ' ' $VENV_NAME)[12])
 sed -e "s@false@true@" $PROJECT_VENV/pyvenv.cfg | tee $PROJECT_VENV/pyvenv.cfg
+
 echo "Installing botocore"
 pipenv run python3.8 -m pip install -q -q --user botocore
 echo "Installing boto3"
@@ -91,19 +96,20 @@ brew upgrade -q
 brew tap weaveworks/tap
 brew install jq kubectl weaveworks/tap/eksctl
 set PATH /opt/homebrew/bin/ $PATH
-jq --version
+
+echo "jq version: $(jq --version)"
 # make sure kubectl is within one minor version of cluster (1.27)
-kubectl version --client
-echo "eksctl Version: $(eksctl version)"
-helm version --template='Version: {{.Version}}'
-grep fish /opt/homebrew/share/fish/vendor_completions.d/kubectl.fish
+echo "kubectl version: $(kubectl version --client)"
+echo "eksctl version: $(eksctl version)"
+echo "helm version: $(helm version --template='Version: {{.Version}}')"
+
+grep fish /opt/homebrew/share/fish/vendor_completions.d/kubectl.fish | head -1
 mkdir -p $HOME/.config/fish/completions
 eksctl completion fish >$HOME/.config/fish/completions/eksctl.fish
-grep fish $HOME/.config/fish/completions/eksctl.fish
-grep fish /opt/homebrew/share/fish/vendor_completions.d/helm.fish
+grep fish $HOME/.config/fish/completions/eksctl.fish | head -1
+grep fish /opt/homebrew/share/fish/vendor_completions.d/helm.fish | head -1
 
 echo "Creating S3 bucket policy for envoy dynamic configuration files"
-set -gx ACCOUNT_ID $(aws sts get-caller-identity --output text --query Account)
 set -gx RANDOM_STRING $(cat /dev/urandom \
     | LC_ALL=C tr -dc '[:alpha:]' \
     | fold -w 9 | head -n 1 \
@@ -113,13 +119,18 @@ echo "set -gx RANDOM_STRING $RANDOM_STRING" | tee -a $fish_config
 echo ---------------------
 echo $(aws iam list-attached-role-policies --role-name $IAM_ADMIN) | grep AdministratorAccess -q && echo "IAM role valid." || echo "IAM role NOT valid."
 echo ---------------------
+echo "Setting ACCOUNT_ID"
 echo "set -gx ACCOUNT_ID $ACCOUNT_ID" | tee -a $fish_config
-echo "set -gx AWS_REGION $AWS_REGION" | tee -a $fish_config
+echo "Setting AWS_REGION"
+echo "set -gx AWS_REGION $AWS_DEFAULT_REGION" | tee -a $fish_config
+echo "Setting AWS_DEFAULT_REGION"
 echo "set -gx AWS_DEFAULT_REGION $AWS_DEFAULT_REGION" | tee -a $fish_config
+echo "Configuring AWS_REGION"
 aws configure set default.region $AWS_REGION
+echo "Getting default region"
 aws configure get default.region
 set -gx ENVOY_CONFIG_BUCKET envoy-config-$RANDOM_STRING
-aws s3 mb s3://$ENVOY_CONFIG_BUCKET
+aws --region $AWS_DEFAULT_REGION s3 mb s3://$ENVOY_CONFIG_BUCKET
 
 if test $status = 0
     echo "set -gx ENVOY_CONFIG_BUCKET $ENVOY_CONFIG_BUCKET" | tee -a $fish_config
@@ -127,10 +138,10 @@ end
 
 envsubst <"iam/s3-envoy-config-access-policy.json" \
     | xargs -J{} -0 aws iam create-policy \
-    --policy-name "s3-envoy-config-access-policy-$RANDOM_STRING" \
+    --policy-name "s3-envy-config-access-policy-$RANDOM_STRING" \
     --policy-document {}
 
-# DynamoDB and Bedrock access policy
+DynamoDB and Bedrock access policy
 set tenants silo bridge pool
 for tenant in $tenants
     echo "Creating contextual data S3 Bucket for $tenant"
@@ -138,11 +149,11 @@ for tenant in $tenants
     aws s3 mb s3://contextual-data-$tenant-$RANDOM_STRING
 
     if test $tenant = silo
-        aws s3 cp data/silo_data.csv s3://contextual-data-$tenant-$RANDOM_STRING
+        aws s3 cp data/Amazon_SageMaker_FAQs.csv s3://contextual-data-$tenant-$RANDOM_STRING
     else if test $tenant = bridge
-        aws s3 cp data/pool_data.csv s3://contextual-data-$tenant-$RANDOM_STRING
+        aws s3 cp data/Amazon_EMR_FAQs.csv s3://contextual-data-$tenant-$RANDOM_STRING
     else if test $tenant = pool
-        aws s3 cp data/bridge_data.csv s3://contextual-data-$tenant-$RANDOM_STRING
+        aws s3 cp data/Amazon_SageMaker_FAQs.csv s3://contextual-data-$tenant-$RANDOM_STRING
     end
 
     echo "S3 access policy for $tenant"
@@ -158,22 +169,18 @@ for tenant in $tenants
         --policy-document {}
 end
 
-# Ingest data to FAISS Index
+Ingest data to FAISS Index
 source $fish_config
 pipenv run command pip3.8 install -q -q --user -r data_ingestion_to_vectordb/requirements.txt
 pipenv run command python3.8 data_ingestion_to_vectordb/data_ingestion_to_vectordb.py
 
 echo "Creating ECR repository for Claude"
-set -gx ECR_REPO_CLAUDE $(aws ecr create-repository \
-  --repository-name $EKS_CLUSTER_NAME-$RANDOM_STRING-claude \
-  --encryption-configuration encryptionType=KMS)
+set -gx ECR_REPO_CLAUDE $(aws ecr create-repository --repository-name $EKS_CLUSTER-$RANDOM_STRING-claude --encryption-configuration encryptionType=KMS)
 set -gx REPO_URI_CLAUDE $(echo $ECR_REPO_CLAUDE| jq -r '.repository.repositoryUri')
 set -gx REPO_CLAUDE $(echo $ECR_REPO_CLAUDE|jq -r '.repository.repositoryName')
 
 echo "Creating ECR repository for rag-api"
-set -gx ECR_REPO_RAGAPI $(aws ecr create-repository \
-  --repository-name $EKS_CLUSTER_NAME-$RANDOM_STRING-rag-api \
-  --encryption-configuration encryptionType=KMS)
+set -gx ECR_REPO_RAGAPI $(aws ecr create-repository --repository-name $EKS_CLUSTER-$RANDOM_STRING-rag-api --encryption-configuration encryptionType=KMS)
 set -gx REPO_URI_RAGAPI $(echo $ECR_REPO_RAGAPI|jq -r '.repository.repositoryUri')
 set -gx REPO_RAGAPI $(echo $ECR_REPO_RAGAPI|jq -r '.repository.repositoryName')
 

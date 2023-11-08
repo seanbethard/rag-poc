@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 source $fish_config
 
-aws ecr get-login-password --region $AWS_REGION | docker login --username AWS \
+echo $(aws ecr get-login-password --region $AWS_REGION) | docker login --username AWS \
   --password-stdin $REPO_URI_CLAUDE
 
 set -gx ECR_IMAGE $(

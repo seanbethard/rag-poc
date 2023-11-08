@@ -196,16 +196,16 @@ fish image-build/build-rag-api-image.fish
 docker rmi -f $(docker images -a -q) >/dev/null 2>&1
 
 echo "Generating a new key"
-echo y | ssh-keygen -t rsa -N '' -f $HOME/.ssh/id_rsa
-echo set -gx EC2_KEY_NAME $EKS_CLUSTER_NAME-$RANDOM_STRING
-aws ec2 import-key-pair --key-name $EC2_KEY_NAME --public-key-material fileb://~/.ssh/id_rsa.pub
-echo set -gx EC2_KEY_NAME $EC2_KEY_NAME | tee -a $fish_config
+echo y | ssh-keygen -t rsa -N '' -f $HOME/.ssh/id_rsa_eks
+set -gx EKS_KEY_NAME $EKS_CLUSTER-$RANDOM_STRING
+eval (ssh-agent -c)
+set -gx EKS_KEY_NAME $EKS_KEY_NAME | tee -a $fish_config
 
 echo "Creating KMS key and alias"
-echo set -gx KMS_KEY_ALIAS $EKS_CLUSTER_NAME-$RANDOM_STRING
+set -gx KMS_KEY_ALIAS $EKS_CLUSTER-$RANDOM_STRING
 aws kms create-alias --alias-name alias/$KMS_KEY_ALIAS \
     --target-key-id $(aws kms create-key --query KeyMetadata.Arn --output text)
-echo set -gx KMS_KEY_ALIAS $KMS_KEY_ALIAS | tee -a $fish_config
+echo "set -gx KMS_KEY_ALIAS $KMS_KEY_ALIAS" | tee -a $fish_config
 echo set -gx MASTER_ARN $(aws kms describe-key --key-id alias/$KMS_KEY_ALIAS \
     --query KeyMetadata.Arn --output text)
-echo set -gx MASTER_ARN $MASTER_ARN | tee -a $fish_config
+echo "set -gx MASTER_ARN $MASTER_ARN" | tee -a $fish_config

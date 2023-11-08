@@ -7,16 +7,20 @@ set -gx YAML_PATH yaml
 echo "set -gx YAML_PATH yaml" | tee -a $fish_config
 [ -d $YAML_PATH ] || mkdir $YAML_PATH
 
-set -gx AWS_DEFAULT_REGION us-east-1
-set -gx ACCOUNT_ID $(aws --region $AWS_DEFAULT_REGION sts get-caller-identity --output text --query Account)
+function get_secret --description 'Get AWS secret.' --argument id secret
+    echo $(aws secretsmanager get-secret-value --secret-id $id) | jq -r '.SecretString' | jq -r ".$secret"
+end
 
-set -gx IAM_ADMIN BedrockMultitenant
-set -gx LANGUAGE_MODEL anthropic.claude-instant-v1
-set -gx EMBEDDING_MODEL amazon.titan-embed-text-v1
-set -gx BEDROCK_SERVICE bedrock-runtime
-set -gx KUBECTL_VERSION 1.27.1/2023-04-19
-set -gx EKS_CLUSTER bedrock-cluster
-set -gx ISTIO_VERSION 1.18.3
+set -gx ACCOUNT_ID $(get_secret multitenant ACCOUNT_ID)
+set -gx AWS_REGION $(get_secret multitenant AWS_REGION)
+set -gx AWS_DEFAULT_REGION $(get_secret multitenant AWS_DEFAULT_REGION)
+set -gx IAM_ADMIN $(get_secret multitenant IAM_ADMIN)
+set -gx LANGUAGE_MODEL $(get_secret multitenant LANGUAGE_MODEL)
+set -gx EMBEDDING_MODEL $(get_secret multitenant EMBEDDING_MODEL)
+set -gx BEDROCK_SERVICE $(get_secret multitenant BEDROCK_SERVICE)
+set -gx KUBECTL_VERSION $(get_secret multitenant KUBECTL_VERSION)
+set -gx EKS_CLUSTER $(get_secret multitenant EKS_CLUSTER)
+set -gx ISTIO_VERSION $(get_secret multitenant ISTIO_VERSION)
 
 echo "set -gx IAM_ADMIN $IAM_ADMIN" | tee -a $fish_config
 echo "set -gx LANGUAGE_MODEL $LANGUAGE_MODEL" | tee -a $fish_config

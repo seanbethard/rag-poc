@@ -141,8 +141,8 @@ if test $status = 0
 end
 
 envsubst <"iam/s3-envoy-config-access-policy.json" \
-    | xargs -J{} -0 aws iam create-policy \
-    --policy-name "s3-envy-config-access-policy-$RANDOM_STRING" \
+    | xargs -0 -J{} aws iam create-policy \
+    --policy-name "s3-envoy-config-access-policy-$RANDOM_STRING" \
     --policy-document {}
 
 DynamoDB and Bedrock access policy

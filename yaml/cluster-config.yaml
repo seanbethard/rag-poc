@@ -1,0 +1,28 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: $(get_secret multitenant EKS_CLUSTER)
+  region: $(get_secret multitenant AWS_REGION)
+  version: "$(get_secret multitenant EKS_CLUSTER_VERSION)"
+iam:
+  withOIDC: true
+  serviceAccounts:
+  - metadata:
+      name: aws-load-balancer-controller
+      namespace: kube-system
+    wellKnownPolicies:
+      awsLoadBalancerController: true
+availabilityZones: ["$(get_secret multitenant AWS_REGION)a", "$(get_secret multitenant AWS_REGION)b", "$(get_secret multitenant AWS_REGION)c"]
+managedNodeGroups:
+- name: nodegroup
+  desiredCapacity: 3
+  instanceTypes: ["t3a.medium", "t3.medium"]
+  volumeEncrypted: true
+  ssh:
+    allow: false
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["*"]
+secretsEncryption:
+  keyARN: $(get_secret multitenant MASTER_ARN)

@@ -1,3 +1,4 @@
 ## rag-poc
-Quasar, Amplify PoC
-Multitenant EKS, FAISS RAG ingest, Streamlit PoC
+Quasar on Amplify.
+
+Multitenant Streamlit application with FAISS ingest on Bedrock, EKS.
